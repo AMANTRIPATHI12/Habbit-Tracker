@@ -7,18 +7,16 @@ export default function WeeklyView({ tasks, tracker, selectedDay }) {
 
       {tasks.map(task => (
         <div key={task.id} className="flex items-center gap-2 mb-1">
-          <span className="w-24 text-sm">{task.name}</span>
+          <span className="w-24 text-sm truncate">{task.name}</span>
 
           {Array.from({ length: 7 }, (_, i) => {
             const day = start + i
-            if (!tracker[day]) return null
-
             return (
               <input
                 key={day}
                 type="checkbox"
-                checked={tracker[day]?.[task.id] || false}
                 readOnly
+                checked={tracker[day]?.[task.id] || false}
                 className="accent-green-500"
               />
             )

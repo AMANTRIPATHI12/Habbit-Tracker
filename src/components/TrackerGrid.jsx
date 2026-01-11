@@ -2,7 +2,7 @@ export default function TrackerGrid({
   tasks,
   tracker,
   setTracker,
-  weeks,
+  daysInMonth,
   setSelectedDay,
 }) {
   function toggle(taskId, day) {
@@ -16,54 +16,52 @@ export default function TrackerGrid({
   }
 
   return (
-    <div className="overflow-auto flex-1 p-4">
-      {weeks.map((week, wIndex) => (
-        <div key={wIndex} className="mb-6">
-          <h3 className="text-sm text-zinc-400 mb-2">
-            Week {wIndex + 1}
-          </h3>
+    <div className="overflow-x-auto p-4 flex-1">
+      <table className="border-collapse min-w-max">
+        <thead>
+          <tr>
+            <th className="sticky left-0 bg-zinc-900 border border-zinc-800 px-3">
+              Task
+            </th>
 
-          <table className="border-collapse w-full">
-            <thead>
-              <tr>
-                <th className="border border-zinc-800 px-2">Task</th>
-                {week.map(day => (
-                  <th
+            {Array.from({ length: daysInMonth }, (_, i) => (
+              <th
+                key={i}
+                className="border border-zinc-800 px-2 cursor-pointer"
+                onClick={() => setSelectedDay(i + 1)}
+              >
+                {i + 1}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {tasks.map(task => (
+            <tr key={task.id}>
+              <td className="sticky left-0 bg-zinc-900 border border-zinc-800 px-3">
+                {task.name}
+              </td>
+
+              {Array.from({ length: daysInMonth }, (_, i) => {
+                const day = i + 1
+                return (
+                  <td
                     key={day}
-                    className="border border-zinc-800 px-2 cursor-pointer"
-                    onClick={() => setSelectedDay(day)}
+                    className="border border-zinc-800 text-center"
                   >
-                    {day}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {tasks.map(task => (
-                <tr key={task.id}>
-                  <td className="border border-zinc-800 px-2">
-                    {task.name}
+                    <input
+                      type="checkbox"
+                      checked={tracker[day]?.[task.id] || false}
+                      onChange={() => toggle(task.id, day)}
+                    />
                   </td>
-
-                  {week.map(day => (
-                    <td
-                      key={day}
-                      className="border border-zinc-800 text-center"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={tracker[day]?.[task.id] || false}
-                        onChange={() => toggle(task.id, day)}
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ))}
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

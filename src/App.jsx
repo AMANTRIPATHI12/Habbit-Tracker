@@ -3,13 +3,13 @@ import Header from "./components/Header"
 import TrackerGrid from "./components/TrackerGrid"
 import StatsPanel from "./components/StatsPanel"
 import AddTask from "./components/AddTask"
+import ProgressGraph from "./components/ProgressGraph"
 import { getMonthInfo } from "./utils/dateUtils"
 import { loadMonthData, saveMonthData } from "./utils/storage"
 
 export default function App() {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const { daysInMonth, monthKey, monthLabel, weeks } =
-    getMonthInfo(currentDate)
+  const { daysInMonth, monthKey, monthLabel } = getMonthInfo(currentDate)
 
   const [tasks, setTasks] = useState([])
   const [tracker, setTracker] = useState({})
@@ -42,7 +42,8 @@ export default function App() {
       <Header monthLabel={monthLabel} onPrev={prevMonth} onNext={nextMonth} />
 
       <main className="flex flex-col md:flex-row flex-1 overflow-hidden">
-        <div className="flex-1 flex flex-col">
+        {/* LEFT SIDE */}
+        <div className="flex-1 flex flex-col overflow-hidden">
           <div className="p-4">
             <AddTask onAdd={addTask} />
           </div>
@@ -51,16 +52,25 @@ export default function App() {
             tasks={tasks}
             tracker={tracker}
             setTracker={setTracker}
-            weeks={weeks}
+            daysInMonth={daysInMonth}
             setSelectedDay={setSelectedDay}
           />
+
+          {/* 🔥 ProgressGraph AT BOTTOM OF TASKS */}
+          <div className="p-4 border-t border-zinc-800">
+            <ProgressGraph
+              tracker={tracker}
+              tasks={tasks}
+              daysInMonth={daysInMonth}
+            />
+          </div>
         </div>
 
+        {/* RIGHT SIDE */}
         <StatsPanel
           tasks={tasks}
           tracker={tracker}
           selectedDay={selectedDay}
-          daysInMonth={daysInMonth}
         />
       </main>
     </div>
