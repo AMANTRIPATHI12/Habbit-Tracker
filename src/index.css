@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
-*{
+
+/* DARK THEME */
+.dark {
   background-color: rgb(24 24 27);
   color: white;
+}
+
+/* LIGHT THEME */
+.light {
+  background-color: rgb(244 244 245);
+  color: rgb(24 24 27);
 }

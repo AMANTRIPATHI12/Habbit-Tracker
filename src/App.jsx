@@ -14,6 +14,10 @@ export default function App() {
   const [tasks, setTasks] = useState([])
   const [tracker, setTracker] = useState({})
   const [selectedDay, setSelectedDay] = useState(1)
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "dark"
+  )
+
 
   useEffect(() => {
     const data = loadMonthData(monthKey)
@@ -56,10 +60,25 @@ export default function App() {
     })
   }
 
+  function toggleTheme() {
+    setTheme(prev => {
+      const next = prev === "dark" ? "light" : "dark"
+      localStorage.setItem("theme", next)
+      return next
+    })
+  }
+
+
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white flex flex-col">
-      <Header monthLabel={monthLabel} onPrev={prevMonth} onNext={nextMonth} />
+    <div
+        className={`min-h-screen flex flex-col ${
+          theme === "dark"
+            ? "dark bg-zinc-900 text-white"
+            : "bg-zinc-100 text-zinc-900"
+        }`}
+      >
+      <Header monthLabel={monthLabel} onPrev={prevMonth} onNext={nextMonth} onToggleTheme={toggleTheme}/>
 
       <main className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* LEFT SIDE */}
@@ -78,7 +97,7 @@ export default function App() {
           />
 
           {/* 🔥 ProgressGraph AT BOTTOM OF TASKS */}
-          <div className="p-4 border-t border-zinc-800">
+          <div className="p-4 border-t border-zinc-200 dark:border-zinc-800">
             <ProgressGraph
               tracker={tracker}
               tasks={tasks}

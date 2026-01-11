@@ -21,7 +21,12 @@ export default function TrackerGrid({
       <table className="border-collapse min-w-max">
         <thead>
           <tr>
-            <th className="sticky left-0 bg-zinc-900 border border-zinc-800 px-3">
+            <th className="
+              sticky left-0 px-3
+              bg-zinc-100 dark:bg-zinc-900
+              border border-zinc-300 dark:border-zinc-800
+              font-medium
+            ">
               Task
             </th>
 
@@ -41,14 +46,17 @@ export default function TrackerGrid({
           {tasks.map(task => (
             <tr key={task.id}>
               {/* ✅ FIXED TASK CELL */}
-              <td className="sticky left-0 bg-zinc-900 border border-zinc-800 px-3">
+              <td className="
+                  border border-zinc-300 dark:border-zinc-800
+                  bg-white dark:bg-zinc-900
+                  text-center
+                ">
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate">{task.name}</span>
 
                   <button
                     onClick={() => onDeleteTask(task.id)}
-                    className="text-red-400 hover:text-red-300 text-sm"
-                    title="Delete task"
+                    className="ml-2 text-red-500 hover:text-red-600 text-xs"
                   >
                     ✕
                   </button>

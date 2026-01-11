@@ -53,7 +53,13 @@ export default function ProgressGraph({ tracker, tasks, daysInMonth }) {
         )
 
   return (
-    <div className="bg-zinc-800 rounded-xl p-6 border border-zinc-700">
+    <div className="
+      bg-white dark:bg-zinc-800
+      rounded-xl p-6
+      border border-zinc-200 dark:border-zinc-700
+      shadow-sm dark:shadow-none
+    ">
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Progress Graph</h2>
