@@ -37,6 +37,26 @@ export default function App() {
     setCurrentDate(d => new Date(d.getFullYear(), d.getMonth() + 1, 1))
   }
 
+  function deleteTask(taskId) {
+    setTasks(prev => prev.filter(t => t.id !== taskId))
+
+    setTracker(prev => {
+      const updated = {}
+
+      for (const day in prev) {
+        const dayData = { ...prev[day] }
+        delete dayData[taskId]
+
+        if (Object.keys(dayData).length > 0) {
+          updated[day] = dayData
+        }
+      }
+
+      return updated
+    })
+  }
+
+
   return (
     <div className="min-h-screen bg-zinc-900 text-white flex flex-col">
       <Header monthLabel={monthLabel} onPrev={prevMonth} onNext={nextMonth} />
@@ -54,6 +74,7 @@ export default function App() {
             setTracker={setTracker}
             daysInMonth={daysInMonth}
             setSelectedDay={setSelectedDay}
+            onDeleteTask={deleteTask}
           />
 
           {/* 🔥 ProgressGraph AT BOTTOM OF TASKS */}

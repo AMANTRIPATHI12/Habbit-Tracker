@@ -4,6 +4,7 @@ export default function TrackerGrid({
   setTracker,
   daysInMonth,
   setSelectedDay,
+  onDeleteTask,
 }) {
   function toggle(taskId, day) {
     setTracker(prev => ({
@@ -39,8 +40,19 @@ export default function TrackerGrid({
         <tbody>
           {tasks.map(task => (
             <tr key={task.id}>
+              {/* ✅ FIXED TASK CELL */}
               <td className="sticky left-0 bg-zinc-900 border border-zinc-800 px-3">
-                {task.name}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="truncate">{task.name}</span>
+
+                  <button
+                    onClick={() => onDeleteTask(task.id)}
+                    className="text-red-400 hover:text-red-300 text-sm"
+                    title="Delete task"
+                  >
+                    ✕
+                  </button>
+                </div>
               </td>
 
               {Array.from({ length: daysInMonth }, (_, i) => {
