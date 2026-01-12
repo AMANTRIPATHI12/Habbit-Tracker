@@ -22,6 +22,7 @@ export default function App() {
     today.getFullYear() === currentDate.getFullYear() &&
     today.getMonth() === currentDate.getMonth()
 
+  const todayDay = isCurrentMonth ? today.getDate() : null
   const startDay = isCurrentMonth ? today.getDate() : 1
 
 
@@ -112,6 +113,7 @@ export default function App() {
             setSelectedDay={setSelectedDay}
             onDeleteTask={deleteTask}
             startDay={startDay}
+            todayDay={todayDay}
           />
 
           {/* 🔥 ProgressGraph AT BOTTOM OF TASKS */}
@@ -130,6 +132,7 @@ export default function App() {
           tracker={tracker}
           selectedDay={selectedDay}
           startDay={startDay}
+          todayDay={todayDay}
         />
       </main>
     </div>

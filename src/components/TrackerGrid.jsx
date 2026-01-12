@@ -6,6 +6,7 @@ export default function TrackerGrid({
   setSelectedDay,
   onDeleteTask,
   startDay,
+  todayDay,
 }) {
   function toggle(taskId, day) {
     setTracker(prev => ({
@@ -34,10 +35,14 @@ export default function TrackerGrid({
             {Array.from({ length: daysInMonth }, (_, i) => (
               <th
                 key={i}
-                className={`border border-zinc-800 px-2 cursor-pointer ${
-                  i + 1 < startDay ? "text-zinc-500 cursor-not-allowed" : ""
+                className={`border border-zinc-800 px-2 ${
+                  todayDay && i + 1 !== todayDay
+                    ? "text-zinc-500 cursor-not-allowed"
+                    : "cursor-pointer"
                 }`}
-                onClick={() => i + 1 >= startDay && setSelectedDay(i + 1)}
+                onClick={() =>
+                  todayDay && i + 1 === todayDay && setSelectedDay(i + 1)
+                }
               >
                 {i + 1}
               </th>
@@ -68,13 +73,15 @@ export default function TrackerGrid({
 
               {Array.from({ length: daysInMonth }, (_, i) => {
                 const day = i + 1
-                const disabled = day < startDay
+                const isPast = todayDay && day < todayDay
+                const isFuture = todayDay && day > todayDay
+                const disabled = isPast || isFuture
 
                 return (
                   <td
                     key={day}
                     className={`border border-zinc-800 text-center ${
-                      disabled ? "bg-zinc-800/40" : ""
+                      disabled ? "bg-zinc-800/40" : "bg-zinc-900"
                     }`}
                   >
                     <input
@@ -82,7 +89,11 @@ export default function TrackerGrid({
                       disabled={disabled}
                       checked={tracker[day]?.[task.id] || false}
                       onChange={() => toggle(task.id, day)}
-                      className={disabled ? "opacity-40 cursor-not-allowed" : ""}
+                      className={`w-4 h-4 ${
+                        disabled
+                          ? "opacity-40 cursor-not-allowed"
+                          : "cursor-pointer accent-green-500"
+                      }`}
                     />
                   </td>
                 )
