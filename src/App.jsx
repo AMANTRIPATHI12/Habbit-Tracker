@@ -17,6 +17,23 @@ export default function App() {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") || "dark"
   )
+  const today = new Date()
+  const isCurrentMonth =
+    today.getFullYear() === currentDate.getFullYear() &&
+    today.getMonth() === currentDate.getMonth()
+
+  const startDay = isCurrentMonth ? today.getDate() : 1
+
+
+  useEffect(() => {
+    const today = new Date()
+
+    const isCurrentMonth =
+      today.getFullYear() === currentDate.getFullYear() &&
+      today.getMonth() === currentDate.getMonth()
+
+    setSelectedDay(isCurrentMonth ? today.getDate() : 1)
+  }, [currentDate])
 
 
   useEffect(() => {
@@ -94,6 +111,7 @@ export default function App() {
             daysInMonth={daysInMonth}
             setSelectedDay={setSelectedDay}
             onDeleteTask={deleteTask}
+            startDay={startDay}
           />
 
           {/* 🔥 ProgressGraph AT BOTTOM OF TASKS */}
@@ -111,6 +129,7 @@ export default function App() {
           tasks={tasks}
           tracker={tracker}
           selectedDay={selectedDay}
+          startDay={startDay}
         />
       </main>
     </div>

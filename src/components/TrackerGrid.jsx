@@ -5,6 +5,7 @@ export default function TrackerGrid({
   daysInMonth,
   setSelectedDay,
   onDeleteTask,
+  startDay,
 }) {
   function toggle(taskId, day) {
     setTracker(prev => ({
@@ -33,8 +34,10 @@ export default function TrackerGrid({
             {Array.from({ length: daysInMonth }, (_, i) => (
               <th
                 key={i}
-                className="border border-zinc-800 px-2 cursor-pointer"
-                onClick={() => setSelectedDay(i + 1)}
+                className={`border border-zinc-800 px-2 cursor-pointer ${
+                  i + 1 < startDay ? "text-zinc-500 cursor-not-allowed" : ""
+                }`}
+                onClick={() => i + 1 >= startDay && setSelectedDay(i + 1)}
               >
                 {i + 1}
               </th>
@@ -65,15 +68,21 @@ export default function TrackerGrid({
 
               {Array.from({ length: daysInMonth }, (_, i) => {
                 const day = i + 1
+                const disabled = day < startDay
+
                 return (
                   <td
                     key={day}
-                    className="border border-zinc-800 text-center"
+                    className={`border border-zinc-800 text-center ${
+                      disabled ? "bg-zinc-800/40" : ""
+                    }`}
                   >
                     <input
                       type="checkbox"
+                      disabled={disabled}
                       checked={tracker[day]?.[task.id] || false}
                       onChange={() => toggle(task.id, day)}
+                      className={disabled ? "opacity-40 cursor-not-allowed" : ""}
                     />
                   </td>
                 )
