@@ -98,7 +98,7 @@ export default function GoalTimer({ targetTime, goalText, onBack }) {
 
       {/* Rings */}
       <div className="flex-1 flex items-center justify-center">
-        <div className="relative w-[520px] h-[520px]">
+        <div className="relative w-130 h-130">
           {rings.map((r, i) => (
             <div
               key={r.key}
